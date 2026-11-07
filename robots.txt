@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+# After launch, add a line: Sitemap: https://<your-real-domain>/sitemap.xml

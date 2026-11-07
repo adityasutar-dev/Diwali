@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diwali greeting card maker: personal wishes in Hindi and English</title>
+<meta name="description" content="Light a diya, write a personal Diwali wish in Hindi or English and share it as a link. No sign-up, no cookies, no tracking.">
+<meta name="theme-color" content="#1d1026">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Light a diya. Send a Diwali wish.">
+<meta property="og:description" content="Make a personal Diwali greeting card in Hindi or English and share it as a link.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+<script src="codec.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <symbol id="rangoli" viewBox="-50 -50 100 100">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path id="petal" d="M0-6C-14-18-10-36 0-46 10-36 14-18 0-6Z"/>
+      <use href="#petal" transform="rotate(45)"/><use href="#petal" transform="rotate(90)"/>
+      <use href="#petal" transform="rotate(135)"/><use href="#petal" transform="rotate(180)"/>
+      <use href="#petal" transform="rotate(225)"/><use href="#petal" transform="rotate(270)"/>
+      <use href="#petal" transform="rotate(315)"/>
+      <circle r="47" stroke-width="1.5" stroke-dasharray="1 5"/>
+    </g>
+    <circle r="5" fill="currentColor"/>
+  </symbol>
+</svg>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<main id="main">
+
+  <section id="welcome" class="screen center" aria-labelledby="h-welcome">
+    <svg class="orn lg" aria-hidden="true" focusable="false"><use href="#rangoli" width="100%" height="100%"/></svg>
+    <h1 id="h-welcome" tabindex="-1">Light a diya.<br>Send a Diwali wish.</h1>
+    <p class="hi" lang="hi">शुभ दीपावली</p>
+    <p>Write a personal greeting for family, friends, parents and grandparents, teachers or colleagues, in English or Hindi. Then share it as a link.</p>
+    <button type="button" class="btn" id="start">Start creating</button>
+    <p id="notice" class="note" role="status"></p>
+    <noscript><p class="note">This card maker needs JavaScript. Please turn it on in your browser settings.</p></noscript>
+  </section>
+
+  <section id="diya" class="screen center" aria-labelledby="h-diya" hidden>
+    <h2 id="h-diya" tabindex="-1">Light the diya</h2>
+    <p id="hint" role="status">Press the diya to light it, or skip this step.</p>
+    <button type="button" id="lamp" class="lamp" aria-pressed="false" aria-label="Light the diya">
+      <svg viewBox="0 0 200 150" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="brass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1c668"/><stop offset=".55" stop-color="#b8893a"/><stop offset="1" stop-color="#7a5520"/></linearGradient>
+          <radialGradient id="fl" cx=".5" cy=".75" r=".6"><stop offset="0" stop-color="#fff6d6"/><stop offset=".45" stop-color="#ffc24a"/><stop offset="1" stop-color="#ef7a12"/></radialGradient>
+        </defs>
+        <path d="M76 140h48l-6-16H82z" fill="#7a5520"/>
+        <path d="M14 70c6 40 42 58 86 58s80-18 86-58c-24 9-54 13-86 13S38 79 14 70z" fill="url(#brass)"/>
+        <ellipse cx="100" cy="70" rx="86" ry="11" fill="#e3b45a"/>
+        <ellipse cx="100" cy="71" rx="70" ry="7" fill="#4a2410"/>
+        <g fill="#f6d98a"><circle cx="64" cy="100" r="3"/><circle cx="82" cy="108" r="3"/><circle cx="100" cy="111" r="3"/><circle cx="118" cy="108" r="3"/><circle cx="136" cy="100" r="3"/></g>
+        <path d="M100 71q-1-11 1-19" stroke="#2a130a" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <g class="flame">
+          <path d="M101 8c13 15 17 27 9 38-4 5-12 6-18 1-8-9-5-22 9-39z" fill="url(#fl)"/>
+          <path d="M101 28c5 7 6 12 2 16-3 3-8 2-9-2-1-5 2-9 7-14z" fill="#fff3c8"/>
+        </g>
+      </svg>
+    </button>
+    <button type="button" id="next" class="btn">Skip lighting</button>
+  </section>
+
+  <section id="create" class="screen" aria-labelledby="h-create" hidden>
+    <h2 id="h-create" tabindex="-1">Write your wish</h2>
+    <form id="form" novalidate>
+      <label for="to">Their name <span class="note">(optional)</span></label>
+      <input id="to" maxlength="40" autocomplete="off" autocapitalize="words">
+      <label for="from">Your name <span class="note">(optional)</span></label>
+      <input id="from" maxlength="40" autocomplete="off" autocapitalize="words">
+      <fieldset>
+        <legend>Card language</legend>
+        <label class="opt"><input type="radio" name="lang" value="en" checked> English</label>
+        <label class="opt"><input type="radio" name="lang" value="hi"> <span lang="hi">हिन्दी</span>&nbsp;(Hindi)</label>
+      </fieldset>
+      <label for="rel">Who is it for?</label>
+      <select id="rel">
+        <option value="general">Anyone</option><option value="family">Family</option><option value="friends">Friends</option>
+        <option value="elders">Parents and grandparents</option><option value="teachers">Teachers</option><option value="colleagues">Colleagues</option>
+      </select>
+      <label for="msg">Message (edit it or write your own)</label>
+      <textarea id="msg" rows="5" maxlength="280" aria-describedby="count"></textarea>
+      <p id="count" class="note"></p>
+      <button type="button" id="suggest" class="btn ghost">Use the suggested message</button>
+      <p class="note">Names and message are written into the share link. They are not encrypted, so please leave out anything private.</p>
+      <p id="err" class="err" role="alert"></p>
+      <button type="submit" class="btn">Create my card</button>
+    </form>
+  </section>
+
+  <section id="card" class="screen center" aria-labelledby="h-card" hidden>
+    <article id="cardEl" class="card">
+      <svg class="orn" aria-hidden="true" focusable="false"><use href="#rangoli" width="100%" height="100%"/></svg>
+      <h2 id="h-card" tabindex="-1"></h2>
+      <p id="cTo" class="to"></p>
+      <p id="cMsg" class="msg"></p>
+      <p id="cBy" class="by"></p>
+    </article>
+    <div class="share">
+      <h3 id="shareHead"></h3>
+      <div class="row">
+        <button type="button" id="native" class="btn" hidden>Share…</button>
+        <button type="button" id="copyLink" class="btn">Copy link</button>
+        <button type="button" id="copyText" class="btn ghost">Copy greeting text</button>
+      </div>
+      <label for="url">Link to this card</label>
+      <input id="url" readonly>
+      <textarea id="manual" readonly rows="4" hidden aria-label="Greeting text to copy"></textarea>
+      <p id="status" class="note" role="status"></p>
+      <div class="row">
+        <button type="button" id="fw" class="btn ghost" aria-pressed="false">Fireworks: off</button>
+        <button type="button" id="edit" class="btn ghost">Edit this card</button>
+        <button type="button" id="again" class="btn ghost"></button>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer>
+  <p>No accounts, cookies or tracking. A card’s names and message live inside its link; this site never sends them to a server.</p>
+  <p>Original concept: Storymint Studio.</p>
+</footer>
+</body>
+</html>
